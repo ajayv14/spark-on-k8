@@ -1,0 +1,18 @@
+# test-rbac-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rbac-test-pod
+  namespace: spark
+spec:
+  serviceAccountName: spark # Use your Spark service account
+  containers:
+    - name: kubernetes-client
+      image: bitnami/kubectl:latest # Or any image with kubectl
+      command: ["/bin/sh", "-c", "kubectl get pods; sleep 3600"] # Try to list pods
+      env:
+        - name: KUBERNETES_SERVICE_HOST
+          value: kubernetes.default.svc
+        - name: KUBERNETES_SERVICE_PORT
+          value: "443"
+  restartPolicy: Never
